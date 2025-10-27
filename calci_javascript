@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Arithmetic Operations in JavaScript</title>
+</head>
+<body>
+  <h2>Arithmetic Operations</h2>
+  <script>
+    // Taking input from user
+    var num1 = parseFloat(prompt("Enter first number:"));
+    var num2 = parseFloat(prompt("Enter second number:"));
+
+    // Performing arithmetic operations
+    var sum = num1 + num2;
+    var difference = num1 - num2;
+    var product = num1 * num2;
+    var quotient = num1 / num2;
+
+    // Displaying results
+    document.write("<h3>Results:</h3>");
+    document.write("Addition: " + sum + "<br>");
+    document.write("Subtraction: " + difference + "<br>");
+    document.write("Multiplication: " + product + "<br>");
+    document.write("Division: " + quotient.toFixed(2) + "<br>");
+  </script>
+</body>
+</html>
