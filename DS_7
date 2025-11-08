@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 100
+
+char stack[MAX];
+int top = -1;
+
+// Function prototypes
+void push(char c);
+char pop();
+int precedence(char c);
+int isOperator(char c);
+
+// Push an element to stack
+void push(char c) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack[++top] = c;
+}
+
+// Pop an element from stack
+char pop() {
+    if (top == -1)
+        return '\0';
+    return stack[top--];
+}
+
+// Return precedence of operators
+int precedence(char c) {
+    if (c == '^')
+        return 3;
+    else if (c == '*' || c == '/')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return 0;
+}
+
+// Check if character is operator
+int isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
+}
+
+// Convert infix to postfix
+void infixToPostfix(char infix[], char postfix[]) {
+    int i, k = 0;
+    char c;
+
+    for (i = 0; infix[i] != '\0'; i++) {
+        c = infix[i];
+
+        if (isalnum(c)) {
+            // Operand → directly to output
+            postfix[k++] = c;
+        } 
+        else if (c == '(') {
+            push(c);
+        } 
+        else if (c == ')') {
+            // Pop until '('
+            while (top != -1 && stack[top] != '(')
+                postfix[k++] = pop();
+            pop(); // remove '('
+        } 
+        else if (isOperator(c)) {
+            while (top != -1 && precedence(stack[top]) >= precedence(c))
+                postfix[k++] = pop();
+            push(c);
+        }
+    }
+
+    // Pop remaining operators
+    while (top != -1)
+        postfix[k++] = pop();
+
+    postfix[k] = '\0'; // End string
+}
+
+// Main function
+int main() {
+    char infix[MAX], postfix[MAX];
+
+    printf("Enter infix expression: ");
+    gets(infix); // (Use fgets for safety in real code)
+
+    infixToPostfix(infix, postfix);
+
+    printf("Postfix expression: %s\n", postfix);
+
+    return 0;
+}
